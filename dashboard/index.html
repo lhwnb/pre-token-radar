@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre-token radar — implied value of protocols that record no token</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="mark" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div>
+      <h1>Pre-token radar</h1>
+      <p class="tag">What a token would be worth if the protocol's record stayed exactly as the snapshot finds it.</p>
+    </div>
+  </div>
+  <dl class="facts" id="facts"></dl>
+</header>
+
+<section class="strip" id="strip"></section>
+
+<nav class="tabs" id="tabs">
+  <button data-view="board" class="on">Board</button>
+  <button data-view="live">Live tokens</button>
+  <button data-view="method">Method</button>
+</nav>
+
+<section class="view" id="view-board">
+  <div class="controls">
+    <label class="search"><span>Search</span><input id="q" type="search" placeholder="protocol, category or chain" autocomplete="off"></label>
+    <label><span>Category</span><select id="cat"></select></label>
+    <label><span>Chain</span><select id="chain"></select></label>
+    <label><span>Sort</span><select id="sort">
+      <option value="rank">rank (implied value)</option>
+      <option value="tvl">TVL</option>
+      <option value="growth">7d change</option>
+      <option value="age">days without a token</option>
+      <option value="pressure">launch pressure</option>
+    </select></label>
+    <label class="check"><input id="watch" type="checkbox"><span>Watchlist only</span></label>
+    <p class="count" id="count"></p>
+  </div>
+  <div class="tablewrap">
+    <table class="board">
+      <thead>
+        <tr>
+          <th class="num">#</th>
+          <th>Protocol</th>
+          <th>Category</th>
+          <th class="num">TVL</th>
+          <th class="num">7d</th>
+          <th class="num">Age</th>
+          <th class="num">Anchor</th>
+          <th class="val">Implied value</th>
+          <th class="num">Pressure</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="view" id="view-live" hidden>
+  <p class="lede">These protocols already trade. The board does not rank them: it reads their market cap per dollar of TVL, and that ratio — per category, shrunk toward the field's median — is the multiple it applies to the protocols that record no token.</p>
+  <div class="tablewrap">
+    <table class="board live">
+      <thead><tr><th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">7d</th><th class="num">mcap / TVL</th></tr></thead>
+      <tbody id="live-rows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="view" id="view-method" hidden>
+  <div id="method"></div>
+</section>
+
+<aside class="drawer" id="drawer" hidden>
+  <div class="drawer-in" id="drawer-in"></div>
+</aside>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
