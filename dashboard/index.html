@@ -3,13 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pre-token radar — implied value of protocols that record no token</title>
+<title>Pre-token radar - implied value of protocols that record no token</title>
 <link rel="stylesheet" href="app.css">
 </head>
-<body>
+<body data-view="board">
 <header class="top">
   <div class="brand">
-    <div class="mark" aria-hidden="true"><span></span><span></span><span></span></div>
     <div>
       <h1>Pre-token radar</h1>
       <p class="tag">What a token would be worth if the protocol's record stayed exactly as the snapshot finds it.</p>
@@ -22,25 +21,28 @@
 
 <nav class="tabs" id="tabs">
   <button data-view="board" class="on">Board</button>
+  <button data-view="map">Map</button>
   <button data-view="live">Live tokens</button>
   <button data-view="method">Method</button>
+  <span class="hash" title="The view lives in the URL: reload or hand this link over and the same screen comes back.">view <code id="hash">#/board</code></span>
 </nav>
 
+<div class="controls" id="controls">
+  <label class="search"><span>Search</span><input id="q" type="search" placeholder="protocol, category or chain" autocomplete="off"></label>
+  <label><span>Category</span><select id="cat"></select></label>
+  <label><span>Chain</span><select id="chain"></select></label>
+  <label><span>Sort</span><select id="sort">
+    <option value="rank">implied value</option>
+    <option value="tvl">TVL</option>
+    <option value="growth">7d change</option>
+    <option value="age">days without a token</option>
+    <option value="pressure">launch pressure</option>
+  </select></label>
+  <label class="check"><input id="watch" type="checkbox"><span>Watchlist only</span></label>
+  <p class="count" id="count"></p>
+</div>
+
 <section class="view" id="view-board">
-  <div class="controls">
-    <label class="search"><span>Search</span><input id="q" type="search" placeholder="protocol, category or chain" autocomplete="off"></label>
-    <label><span>Category</span><select id="cat"></select></label>
-    <label><span>Chain</span><select id="chain"></select></label>
-    <label><span>Sort</span><select id="sort">
-      <option value="rank">rank (implied value)</option>
-      <option value="tvl">TVL</option>
-      <option value="growth">7d change</option>
-      <option value="age">days without a token</option>
-      <option value="pressure">launch pressure</option>
-    </select></label>
-    <label class="check"><input id="watch" type="checkbox"><span>Watchlist only</span></label>
-    <p class="count" id="count"></p>
-  </div>
   <div class="tablewrap">
     <table class="board">
       <thead>
@@ -59,11 +61,24 @@
       <tbody id="rows"></tbody>
     </table>
   </div>
+  <p class="tfoot">Rank is the model's and never moves: the first column is the row's place on the ranked board, whatever the sort. A click opens the arithmetic behind it.</p>
+</section>
+
+<section class="view" id="view-map" hidden>
+  <div class="mapcard">
+    <div class="mapintro">
+      <h2>TVL against implied value</h2>
+      <p>All ranked rows on shared log scales. A dot above the diagonal is priced above the field's median market cap per dollar of TVL; a ringed dot is on the house watchlist.</p>
+    </div>
+    <ul class="legend" id="legend"></ul>
+    <div class="plot" id="plot"></div>
+    <p class="mapfoot" id="mapfoot"></p>
+  </div>
 </section>
 
 <section class="view" id="view-live" hidden>
-  <p class="lede">These protocols already trade. The board does not rank them: it reads their market cap per dollar of TVL, and that ratio — per category, shrunk toward the field's median — is the multiple it applies to the protocols that record no token.</p>
-  <div class="tablewrap">
+  <p class="lede">These protocols already trade. The board does not rank them: it reads their market cap per dollar of TVL, and that ratio - per category, shrunk toward the field's median - is the multiple it applies to the protocols that record no token.</p>
+  <div class="tablewrap tall">
     <table class="board live">
       <thead><tr><th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">7d</th><th class="num">mcap / TVL</th></tr></thead>
       <tbody id="live-rows"></tbody>
@@ -74,6 +89,8 @@
 <section class="view" id="view-method" hidden>
   <div id="method"></div>
 </section>
+
+<div class="scrim" id="scrim" hidden></div>
 
 <aside class="drawer" id="drawer" hidden>
   <div class="drawer-in" id="drawer-in"></div>
